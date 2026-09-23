@@ -23,11 +23,11 @@ Aplicação web desenvolvida em **Node.js** com framework **Express**, utilizand
 
 ## 🛣️ Rotas da Aplicação
 
-| Método | Rota | Descrição | Resposta |
-| :--- | :--- | :--- | :--- |
-| `GET` | `/` | Página principal com formulário de entrada e apresentação | Renderiza `index.pug` |
-| `POST` | `/` | Processa valores numéricos (`n1`, `n2`), executa o cálculo de soma e registra a submissão | Renderiza `submission.pug` com o resultado |
-| `GET` | `/data` | Retorna o histórico de todas as submissões enviadas durante a execução | Retorna array em formato `JSON` |
+| Método | Rota    | Descrição                                                                                 | Resposta                                   |
+| :----- | :------ | :---------------------------------------------------------------------------------------- | :----------------------------------------- |
+| `GET`  | `/`     | Página principal com formulário de entrada e apresentação                                 | Renderiza `index.pug`                      |
+| `POST` | `/`     | Processa valores numéricos (`n1`, `n2`), executa o cálculo de soma e registra a submissão | Renderiza `submission.pug` com o resultado |
+| `GET`  | `/data` | Retorna o histórico de todas as submissões enviadas durante a execução                    | Retorna array em formato `JSON`            |
 
 ---
 
@@ -59,41 +59,33 @@ express/
 ## 🚀 Como Executar o Projeto
 
 ### Pré-requisitos
-* [Node.js](https://nodejs.org/) instalado (versão 16 ou superior).
-* Gerenciador de pacotes `npm`.
+
+- [Node.js](https://nodejs.org/) instalado (versão 16 ou superior).
+- Gerenciador de pacotes `npm`.
 
 ### Passo a Passo
 
 1. **Clone o repositório:**
+
    ```bash
    git clone https://github.com/Tamaroshi/node-express-pug-app.git
    cd node-express-pug-app
    ```
 
 2. **Instale as dependências:**
+
    ```bash
    npm install
    ```
 
 3. **Inicie o servidor:**
+
    ```bash
    npm start
    ```
-   *(ou `node index.js` / `node server/server.js`)*
+
+   _(ou `node index.js` / `node server/server.js`)_
 
 4. **Acesse no navegador:**
    - Página principal: [http://localhost:3000/](http://localhost:3000/)
    - Histórico de dados em JSON: [http://localhost:3000/data](http://localhost:3000/data)
-
----
-
-## 👤 Autor
-
-* **Luis Felipe Tamashiro**
-  * Estudante de Ciência da Computação — Universidade Federal de Uberlândia (UFU)
-  * GitHub: [@Tamaroshi](https://github.com/Tamaroshi)
-  * LinkedIn: [LF-Tamashiro](https://www.linkedin.com/in/LF-Tamashiro)
-  * Email: [lftamashiro@gmail.com](mailto:lftamashiro@gmail.com)
-
----
-*Licença MIT — Fique à vontade para clonar, estudar e utilizar como base para novas aplicações.*
