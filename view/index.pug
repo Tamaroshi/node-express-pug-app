@@ -1,0 +1,31 @@
+doctype html
+html
+  head 
+    title ulilizando pug
+    link(rel="stylesheet", href="style.css")
+    link(rel="shortcut icon", href="/img/favicon.jpg")
+  body
+    header
+     h1#title utilizando pug
+    
+    br
+
+    p Lorem ipsum, dolor sit amet consectetur adipisicing elit. Repellat magni veniam, perferendis nostrum et ullam? Placeat quia, pariatur perspiciatis sapiente praesentium laboriosam modi, incidunt reiciendis magnam iusto mollitia porro provident!
+
+    br
+
+    img(src="/img/elon.jpg")
+
+    br
+
+    form(action="/", method="POST")
+      label(for="n1") número 1:
+      input(type="text", id="n1", name="n1")
+      br
+      label(for="n2") número 2:
+      input(type="text", id="n2", name="n2")
+      br
+      input(type="submit", value="Submit")
+
+    footer 
+      h1#title footer
