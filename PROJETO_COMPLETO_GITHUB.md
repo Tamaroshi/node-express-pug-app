@@ -1,6 +1,6 @@
 # 🌐 Node.js + Express & Pug — Repositório Completo & Guia de Upload
 
-Este documento reúne **todas as informações e o código-fonte** da aplicação web com **Express e Pug**, pronto para você enviar para o GitHub através da sua conta **`Tamaroshi`**.
+Este documento reúne **todas as informações e o código-fonte** da aplicação web modularizada com **Express e Pug**, pronto para você enviar para o GitHub através da sua conta **`Tamaroshi`**.
 
 ---
 
@@ -11,14 +11,16 @@ Este documento reúne **todas as informações e o código-fonte** da aplicaçã
 4. [Código-Fonte Integral dos Arquivos](#4-código-fonte-integral-dos-arquivos)
    - [Configuração (.gitignore)](#gitignore)
    - [Dependências (package.json)](#packagejson)
-   - [Servidor (index.js)](#indexjs)
+   - [Aplicação (app/app.js)](#appappjs)
+   - [Servidor (server/server.js)](#serverserverjs)
+   - [Ponto de Entrada (index.js)](#indexjs)
    - [Templates e Estilos (view/)](#view)
 
 ---
 
 ## 1. Instruções para Subir na sua Outra Conta do GitHub
 
-O repositório Git local já foi inicializado com `.gitignore`, `README.md` e o commit inicial estruturado, excluindo a pasta pesada `node_modules/`.
+O repositório Git local já está inicializado na pasta `express` com `.gitignore`, `README.md`, `app/app.js`, `server/server.js` e o commit inicial estruturado, excluindo a pasta pesada `node_modules/`.
 
 Para enviar para o GitHub pela conta **`Tamaroshi`**:
 
@@ -51,8 +53,6 @@ git push -u origin main
 
 ## 2. README Oficial do Projeto
 
-*(Já configurado e salvo no arquivo `README.md` da raiz)*
-
 Aplicação desenvolvida em **Node.js** com **Express** e **Pug** como View Engine, com suporte a Server-Side Rendering (SSR), roteamento REST, parsing de requisições e servimento de arquivos estáticos.
 
 ### Rotas:
@@ -66,7 +66,11 @@ Aplicação desenvolvida em **Node.js** com **Express** e **Pug** como View Engi
 
 ```bash
 express/
-├── index.js
+├── app/
+│   └── app.js             # Configuração da aplicação Express, middlewares e rotas
+├── server/
+│   └── server.js          # Inicialização do servidor HTTP e conexão com MongoDB
+├── index.js               # Ponto de entrada que delega para o servidor
 ├── package.json
 ├── package-lock.json
 ├── .gitignore
@@ -125,26 +129,27 @@ Thumbs.db
 }
 ```
 
-### index.js
+### app/app.js
 ```javascript
 const express = require("express");
-const app = express();
-const port = 3000;
 const path = require("path");
+
+const app = express();
 
 const arr = [];
 
-// Template engine Pug
+// Configuração da View Engine (Pug)
 app.set("view engine", "pug");
-app.set("views", path.join(__dirname, "/view"));
+app.set("views", path.join(__dirname, "..", "view"));
 
 // Arquivos estáticos (CSS, imagens)
-app.use(express.static(path.join(__dirname, "view")));
+app.use(express.static(path.join(__dirname, "..", "view")));
 
-// Middleware para decodificar JSON e dados de formulário URL-encoded
+// Middlewares para parsing de requisições
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Rotas da aplicação
 app.route("/")
   .get((req, res) => {
     res.render("index");
@@ -158,13 +163,51 @@ app.route("/")
     res.render("submission", { n1, n2, calc });
   });
 
-app.get('/data', (req, res) => {
+// Rota para consulta dos dados submetidos (API JSON)
+app.get("/data", (req, res) => {
   res.json(arr);
 });
 
-app.listen(port, () => {
-  console.log(`Servidor rodando em http://localhost:${port}`);
-});
+module.exports = app;
+```
+
+### server/server.js
+```javascript
+require("dotenv").config();
+const app = require("../app/app");
+const mongoose = require("mongoose");
+
+const port = process.env.PORT || 3000;
+
+// Inicialização com suporte a MongoDB se CONNECTIONSTRING estiver no .env
+if (process.env.CONNECTIONSTRING) {
+  mongoose
+    .connect(process.env.CONNECTIONSTRING)
+    .then(() => {
+      console.log("Conectado ao MongoDB com sucesso.");
+      iniciarServidor();
+    })
+    .catch((err) => {
+      console.error("Erro ao conectar ao MongoDB:", err);
+      iniciarServidor();
+    });
+} else {
+  iniciarServidor();
+}
+
+function iniciarServidor() {
+  app.listen(port, () => {
+    console.log(`Servidor rodando em http://localhost:${port}`);
+  });
+}
+
+module.exports = { app, iniciarServidor };
+```
+
+### index.js
+```javascript
+// Ponto de entrada que inicializa o servidor configurado
+require("./server/server");
 ```
 
 ### view/index.pug

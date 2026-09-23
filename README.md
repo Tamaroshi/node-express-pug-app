@@ -5,12 +5,13 @@
 [![Pug](https://img.shields.io/badge/View_Engine-Pug-A86454?logo=pug&logoColor=white)](#)
 [![License](https://img.shields.io/badge/License-MIT-purple.svg)](#)
 
-Aplicação web desenvolvida em **Node.js** com framework **Express**, utilizando **Pug** como motor de renderização no lado do servidor (Server-Side Rendering — SSR), manipulação de formulários HTTP, arquivos estáticos e disponibilização de endpoint de dados em formato JSON.
+Aplicação web desenvolvida em **Node.js** com framework **Express**, utilizando **Pug** como motor de renderização no lado do servidor (Server-Side Rendering — SSR), arquitetura modularizada com separação de camadas (`app/` e `server/`), manipulação de formulários HTTP e disponibilização de endpoint de dados em formato JSON.
 
 ---
 
 ## 📌 Funcionalidades
 
+- **Arquitetura Modular:** Separação clara entre a configuração da aplicação (`app/app.js`) e a inicialização do servidor HTTP/Banco de Dados (`server/server.js`).
 - **Renderização no Servidor (SSR):** Templates dinâmicos compilados com a engine **Pug**.
 - **Servimento de Arquivos Estáticos:** Configuração de diretório público para folhas de estilo CSS (`style.css`), favicon e imagens (`.jpg`).
 - **Processamento de Requisições HTTP:**
@@ -34,7 +35,11 @@ Aplicação web desenvolvida em **Node.js** com framework **Express**, utilizand
 
 ```bash
 express/
-├── index.js               # Servidor Express, configuração de middlewares e rotas
+├── app/
+│   └── app.js             # Configuração da aplicação Express, middlewares e rotas
+├── server/
+│   └── server.js          # Inicialização do servidor HTTP e conexão com MongoDB
+├── index.js               # Ponto de entrada que delega para o servidor
 ├── package.json           # Dependências e scripts do Node.js
 ├── package-lock.json      # Árvore de resolução de dependências
 ├── .gitignore             # Arquivos e pastas ignorados no versionamento (ex: node_modules)
@@ -74,7 +79,7 @@ express/
    ```bash
    npm start
    ```
-   *(ou diretamente `node index.js`)*
+   *(ou `node index.js` / `node server/server.js`)*
 
 4. **Acesse no navegador:**
    - Página principal: [http://localhost:3000/](http://localhost:3000/)
